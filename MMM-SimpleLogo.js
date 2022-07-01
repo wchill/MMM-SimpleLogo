@@ -1,11 +1,12 @@
 Module.register("MMM-SimpleLogo", {
     // Default module config.
     defaults: {
-        text: "Simple Logo",
-        fileUrl: "modules/MMM-SimpleLogo/public/logo.png",
+        text: "",
+	fileUrl: "logo.png",
         width: "200px",
         position: "left",
-        refreshInterval: 0
+        refreshInterval: 0,
+	inverted: false
     },
 
     start: function() {
@@ -14,7 +15,7 @@ Module.register("MMM-SimpleLogo", {
             var imgsrc = self.config.fileUrl;
             this.interval = setInterval(function() {
                 img = document.querySelector(".simple-logo__container img[src*='" + imgsrc + "']");
-                imgsrc = self.config.fileUrl;
+                imgsrc = "/modules/MMM-SimpleLogo/public/" + self.config.fileUrl;
                 if(!imgsrc.includes("?"))
                         imgsrc += '?' + Date.now();
                 else
@@ -49,11 +50,14 @@ Module.register("MMM-SimpleLogo", {
         var wrapper = document.createElement("div");
         wrapper.className = 'simple-logo__container';
         wrapper.classList.add(this.config.position);
+	if (this.config.inverted) {
+		wrapper.classList.add("inverted");
+	}
         wrapper.style.width = this.config.width;
         var text = document.createTextNode(this.config.text);
         wrapper.appendChild(text);
         var img = document.createElement("img");
-        img.setAttribute('src', this.config.fileUrl);
+        img.setAttribute('src', "/modules/MMM-SimpleLogo/public/" + this.config.fileUrl);
         wrapper.appendChild(img);
         return wrapper;
     }
